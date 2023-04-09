@@ -54,21 +54,36 @@ app.get('/', async (req, res) => {
     //Set the image in the center of the canvas, with a 200px width and a 200px height, if overpass the canvas, it will be cropped, and make a corner radius of 100px
     //Set the image in the center of the canvas, with a 200px width and a 200px height, if overpass the canvas, it will be cropped, and make a corner radius of 100px
     ctx.drawImage(img, 0, 0, 2048, 1173);
-    // //Make corner radius of 100px
-    // ctx.drawImage(img2, );
-    // //Send the image in view as a png
+    //Insert Text
+    ctx.font = 'bold 100px sans-serif';
+    ctx.fillStyle = '#000000';
+    ctx.fillText('MDC#0001', img.width / 2 + 0, img.height / 2 + 300);
+    //Insert more text with a shadow
+    ctx.font = 'bold 100px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = '#000000';
+    ctx.shadowBlur = 10;
+    ctx.fillText('MDC#0001', img.width / 2 + 0, img.height / 2 + 300);
+
+    //Insert more text for a welcome message
+    ctx.font = 'bold 100px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = '#000000';
+    ctx.shadowBlur = 10;
+    ctx.fillText('Welcome to the server!', img.width / 2 - 300, img.height / 2 + 450);
     //Make corner radius of 100px for img2
     ctx.beginPath();
-    ctx.arc(img.width / 2 - 50, img.height / 2 - 250, 200, 0, Math.PI * 2, true);
+    ctx.arc(img.width / 2 + 250, img.height / 2 - 150, 300, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.clip();
     // Make a bg black for if the image is transparent
-    ctx.drawImage(black, img.width / 2 - 500 / 2, img.height / 2 - 900 / 2, 400, 400);
-    ctx.drawImage(img2, img.width / 2 - 500 / 2, img.height / 2 - 900 / 2, 400, 400);
+    ctx.drawImage(black, 0, 0, 2048, 1173);
+    ctx.drawImage(img2, img.width / 2 - 50, img.height / 2 - 450, 600, 600);
     //Show the image in view, withouth saving or using html
-    res.setHeader('Content-Type', 'image/png')
-    res.setHeader('Content-Disposition', 'attachment; filename="image.png"')
-    res.send(canvas.toBuffer());
+    // res.setHeader('Content-Type', 'image/png')
+    // res.setHeader('Content-Disposition', 'attachment; filename="image.png"')
+    // res.send(canvas.toBuffer());
+    res.send('<img src="' + canvas.toDataURL() + '" />');
 });
 
 app.listen(port, () => {
