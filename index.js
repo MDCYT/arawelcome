@@ -1,5 +1,5 @@
 const express = require('express');
-const {createCanvas, loadImage} = require('canvas');
+const {createCanvas, loadImage, registerFont} = require('canvas');
 const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -53,6 +53,8 @@ app.get('/', async (req, res) => {
     console.log(img2);
     //Set the image in the center of the canvas, with a 200px width and a 200px height, if overpass the canvas, it will be cropped, and make a corner radius of 100px
     //Set the image in the center of the canvas, with a 200px width and a 200px height, if overpass the canvas, it will be cropped, and make a corner radius of 100px
+    await registerFont(__dirname + '/public/fonts/micross2.ttf', { family: 'sans-serif' });
+
     ctx.drawImage(img, 0, 0, 2048, 1173);
     //Insert Text
     ctx.font = 'bold 100px sans-serif';
@@ -80,10 +82,10 @@ app.get('/', async (req, res) => {
     ctx.drawImage(black, 0, 0, 2048, 1173);
     ctx.drawImage(img2, img.width / 2 - 50, img.height / 2 - 450, 600, 600);
     //Show the image in view, withouth saving or using html
-    // res.setHeader('Content-Type', 'image/png')
-    // res.setHeader('Content-Disposition', 'attachment; filename="image.png"')
-    // res.send(canvas.toBuffer());
-    res.send('<img src="' + canvas.toDataURL() + '" />');
+    res.setHeader('Content-Type', 'image/png')
+    res.setHeader('Content-Disposition', 'attachment; filename="image.png"')
+    res.send(canvas.toBuffer());
+    // res.send('<img src="' + canvas.toDataURL() + '" />');
 });
 
 app.listen(port, () => {
